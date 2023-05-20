@@ -14,7 +14,7 @@ import javax.swing.JRadioButton;
  * @author William
  */
 public class JuegoQuiz extends javax.swing.JFrame {
-    
+    // Cambiar numeros por preguntas y respuestas, cada {} dentro de respuestas equivale a 3 respuestas para cada pregunta
     String [] preguntas = {"1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20"};
     String [][] respuestas = {{"1", "2", "3"}, {"4", "5", "6"}, {"7", "8", "9"}, {"10", "11", "12"}, {"13", "14", "15"}, {"16", "17", "18"}, {"19", "20", "21"}
     , {"22", "22", "24"}, {"25", "26", "27"}, {"28", "29", "30"}, {"31", "32", "33"}, {"34", "35", "36"}, {"37", "38", "39"}, {"40", "41", "42"}, {"43", "44", "45"}, 
@@ -46,7 +46,7 @@ public class JuegoQuiz extends javax.swing.JFrame {
         
     }
     
-    public void getSelectedOption(JRadioButton jrbtn ){
+    public void getSelectedOption(JRadioButton jrbtn ){ //Obtener respuesta seleccionada
         //Comprobar las respuestas correctas
         if(jrbtn.getText().equals(respuestas[index][2])){ 
             correctas++;
@@ -57,7 +57,7 @@ public class JuegoQuiz extends javax.swing.JFrame {
         enableRadioButtons(false);
     }
     
-    public void enableRadioButtons(boolean si_no){
+    public void enableRadioButtons(boolean si_no){ //Elegir una respuesta luego de responder una pregunta
         jrbRespuesta1.setEnabled(si_no);
         jrbRespuesta2.setEnabled(si_no);
         jrbRespuesta3.setEnabled(si_no);
@@ -187,7 +187,7 @@ public class JuegoQuiz extends javax.swing.JFrame {
 
     private void btnSiguienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSiguienteActionPerformed
         
-        if(btnSiguiente.getText().equals("Reiniciar")){ 
+        if(btnSiguiente.getText().equals("Reiniciar")){ //reiniciar al finalizar el juego 
             btnSiguiente.setText("Siguiente");
             index = 0;
             correctas = 0;
@@ -195,12 +195,26 @@ public class JuegoQuiz extends javax.swing.JFrame {
         }
         
         if(index == preguntas.length){
+            //calculo de media
+            int sumam = 0;
+            int sumav = 0;
             
             for(int i=0; i<preguntas.length; i++){
-                preguntas[i] =;
-                
+                sumam += Integer.parseInt( preguntas[i]);
             }
+            media = sumam / preguntas.length;
             
+            //calculo de varianza
+            double sum=0;
+            for(int i=0; i<preguntas.length; i++){
+                sumav+=Math.pow(Double.parseDouble(preguntas[i]), 2);
+            }
+            varianza = (float) (sumav / preguntas.length - Math.pow(media, 2));
+            
+            
+        
+            
+            //Pantalla final del juego
             jlbPregunta.setText("Acertaste "+correctas+" / " +preguntas.length + " preguntas!");
             if(correctas > (float) preguntas.length / 2){
                 jPanel1.setBackground(Color.green);
@@ -220,13 +234,13 @@ public class JuegoQuiz extends javax.swing.JFrame {
             jrbRespuesta2.setText(respuestas[index][1]);
             jrbRespuesta3.setText(respuestas[index][2]);
         
-            if(index == preguntas.length){
+            if(index == preguntas.length){ //fin del juego
                 btnSiguiente.setText("Teminar");
             }
             
         }
         
-        bg.clearSelection();
+        bg.clearSelection(); //Limpiar respuestas
         
     }//GEN-LAST:event_btnSiguienteActionPerformed
 
